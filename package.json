@@ -1,0 +1,26 @@
+{
+  "name": "taller-5-base",
+  "version": "1.0.0",
+  "description": "��#\u0000 \u0000T\u0000a\u0000l\u0000l\u0000e\u0000r\u0000-\u00005\u0000-\u0000b\u0000a\u0000s\u0000e\u0000s\u0000\r\u0000 \u0000",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DavidLopF/Taller-5-bases.git"
+  },
+  "author": "David Lopez, Briannys Paez, Sergio Peña",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DavidLopF/Taller-5-bases/issues"
+  },
+  "homepage": "https://github.com/DavidLopF/Taller-5-bases#readme",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.18.1",
+    "morgan": "^1.10.0"
+  }
+}
