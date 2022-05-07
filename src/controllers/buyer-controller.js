@@ -1,28 +1,17 @@
 const Neo4j = require('../config/neo4j')
+const neo4j = new Neo4j()
 
 
-
-class BuyerController {
-
-    constructor() {
-        this.neo4j = new Neo4j()
-    }
-
+class buyerController {
     async create(req, res) {
-        try {
-            const { name } = req.body
-            const buyer = await this.neo4j.createBuyer(name)
-            res.status(201).json({
-                message: 'Buyer created successfully',
-                buyer
-            })
-        } catch (err) {
-            res.status(500).json({
-                message: 'Error creating buyer',
-                error: err
-            })
-        }
-    }
+        const { name } = req.body
+        let buyer = await neo4j.createBuyer(name)
+        buyer = buyer.records[0]._fields[0].properties
+        res.status(201).json({
+            message: 'buyer created',
+            buyer
+        })
+    }    
 }
 
-module.exports = BuyerController    
+module.exports = buyerController

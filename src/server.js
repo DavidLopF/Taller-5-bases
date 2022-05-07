@@ -23,6 +23,7 @@ class Server {
     }
     routes() {
         this.app.use('/buyer', require('./routes/buyer-route'));
+        this.app.use('/seller', require('./routes/seller-route'));
     }
 
     launcher() {
