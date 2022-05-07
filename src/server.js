@@ -10,9 +10,8 @@ class Server {
         this.port = process.env.PORT || 3000;
         this.host = process.env.HOST || 'localhost';
         this.server = require('http').createServer(this.app);
-
         this.middlewares();
-        //this.routes();
+        this.routes();
     }
 
     middlewares() {
@@ -23,8 +22,7 @@ class Server {
         this.app.use(express.static(path.join(__dirname, 'public')));
     }
     routes() {
-        this.app.use('/', require('./routes/index'));
-        this.app.use('/api/v1/', require('./routes/api/v1'));
+        this.app.use('/buyer', require('./routes/buyer-route'));
     }
 
     launcher() {
