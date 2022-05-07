@@ -16,13 +16,13 @@ router.route('/')
     })
 
 router.route('/buy')
-    .post(/*[
+    .post([
         check('name').isString().withMessage('Name must be a string'),
         check('name').not().isEmpty().withMessage('Name must not be empty'),
         check('product').isString().withMessage('Product must be a string'),
         check('product').not().isEmpty().withMessage('Product must not be empty'),
         validateData
-    ],*/ (req, res) => {
+    ], (req, res) => {
         sellerController.buy(req, res);
     })
 
