@@ -3,12 +3,15 @@ const neo4j = require('neo4j-driver')
 class Neo4j {
     constructor() {
         this.driver = neo4j.driver("bolt://localhost:7687", neo4j.auth.basic("neo4j", "root"))
-        this.driver = neo4j.driver("bolt://localhost:7687", neo4j.auth.basic("neo4j", "admin"))
         this.session = this.driver.session()
     }
 
     recommendProduct(name, product) {
         return this.session.run(`MATCH (product:product{Nombre: '${product}'}) MATCH (buyer:buyer{Nombre: '${name}'}) create (buyer)-[:recommend]->(product)`)
+    }
+
+    buy(name, product){
+        return this.session.run(`MATCH (n:seller {Nombre: '${name}'}) MATCH (m:product {Nombre: '${product}'}) CREATE (n)-[:buy]->(m)`)
     }
 
     getAllBuyer(){
