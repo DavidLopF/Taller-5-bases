@@ -2,7 +2,7 @@ const neo4j = require('neo4j-driver')
 
 class Neo4j {
     constructor() {
-        this.driver = neo4j.driver("bolt://localhost:7687", neo4j.auth.basic("neo4j", "admin"))
+        this.driver = neo4j.driver(process.env.DB_URL, neo4j.auth.basic(process.env.DB_USER, process.env.DB_PASS))
         this.session = this.driver.session()
     }
 
