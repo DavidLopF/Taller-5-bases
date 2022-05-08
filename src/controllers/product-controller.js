@@ -55,10 +55,6 @@ class productController {
                 } else {
                     product.isRecommended = true
                 }
-                return product
-            })
-            products = await Promise.all(products)
-            products = products.map(product => {
                 if (product.isRecommended === true) {
                     product.ranking = 5
                 } else if (product.isRecommended === false) {
@@ -67,6 +63,7 @@ class productController {
                 product.ranking_sugerencia = 0.4 * product.sales + 0.6 * product.ranking
                 return product
             })
+            products = await Promise.all(products)
             products = products.sort((a, b) => {
                 return b.ranking_sugerencia - a.ranking_sugerencia
             })
