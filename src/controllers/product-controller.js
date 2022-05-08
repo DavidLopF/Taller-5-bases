@@ -35,7 +35,7 @@ class productController {
                 return product._fields[0]
             })
             res.status(200).json({
-                message: 'products retrieved successfully',
+                message: 'Top 5 products retrieved successfully',
                 products
             })
         } catch (e) {
@@ -44,6 +44,45 @@ class productController {
                 error: e
             })
         }
+    }
+    async suggestProduct(req, res) {
+        try {
+            let products = await this.neo4j.getALlProducts()
+            products = await products.map(async product => {
+                const isRecommended = await this.neo4j.isRecommended(product.name)
+                if (typeof isRecommended === 'undefined') {
+                    product.isRecommended = false
+                } else {
+                    product.isRecommended = true
+                }
+                return product
+            })
+            products = await Promise.all(products)
+            products = products.map(product => {
+                if (product.isRecommended === true) {
+                    product.ranking = 5
+                } else if (product.isRecommended === false) {
+                    product.ranking = 0
+                }
+                product.ranking_sugerencia = 0.4 * product.sales + 0.6 * product.ranking
+                return product
+            })
+            products = products.sort((a, b) => {
+                return b.ranking_sugerencia - a.ranking_sugerencia
+            })
+            products = products.slice(0, 3)
+            res.status(200).json({
+                message: 'products retrieved successfully',
+                products
+            })
+        } catch (e) {
+            console.log(e)
+            res.status(500).json({
+                message: 'products not retrieved',
+                error: e
+            })
+        }
+
     }
 }
 

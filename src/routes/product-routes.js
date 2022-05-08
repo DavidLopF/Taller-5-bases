@@ -14,6 +14,10 @@ router.route('/top5')
         productController.getTop5(req, res);
     })
 
+router.route('/suggest_product')
+    .get((req, res) => {
+        productController.suggestProduct(req, res);
+    })
 
 
 

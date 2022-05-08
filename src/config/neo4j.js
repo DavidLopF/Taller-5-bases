@@ -52,6 +52,40 @@ class Neo4j {
         `)
     }
 
+    async getALlProducts() {
+        //traer los productos con la cantidad de veces que se ha comprado por los compradores y saber si esta recomendado por medio de una relacion de recomendacion
+        let products = await this.session.run(`
+        MATCH (buyer:buyer)
+        MATCH (product:product)
+        MATCH (buyer)-[:buy]->(product)
+        RETURN product.name, count(*)
+        ORDER BY count(*) DESC
+        `)
+        products = products.records.map(product => {
+            //retornar el nombre del producto y la cantidad de compras
+            return {
+                name: product._fields[0],
+                sales: product._fields[1].low
+            }
+        })
+        return products
+    }
+
+    async isRecommended(product) {
+        //abrir una nueva session para que no se cierren las otras
+        let session = this.driver.session()
+        const recomendated = await session.run(`
+        MATCH (buyer:buyer)
+        MATCH (product:product)
+        MATCH (buyer)-[:recommend]->(product)
+        WHERE product.name = '${product}'
+        RETURN true
+        `)
+        session.close()
+        return recomendated.records[0]     
+    }
+
+
 }
 
 
