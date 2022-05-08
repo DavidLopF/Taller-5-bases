@@ -34,6 +34,23 @@ class buyerController {
         }
     }
 
+    async buy(req, res){
+        try {
+            const { name, product } = req.body
+            const buy = await this.neo4j.buy(name, product)
+            res.status(201).json({
+                message: 'buy created successfully',
+                buy
+            })
+        } catch (err) {
+            res.status(500).json({
+                message: 'Error creating buy',
+                error: err
+            })
+
+        }
+    }
+
 
     async getAll(req, res) {
         try {

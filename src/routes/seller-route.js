@@ -15,15 +15,6 @@ router.route('/')
         sellerController.create(req, res);
     })
 
-router.route('/buy')
-    .post([
-        check('name').isString().withMessage('Name must be a string'),
-        check('name').not().isEmpty().withMessage('Name must not be empty'),
-        check('product').isString().withMessage('Product must be a string'),
-        check('product').not().isEmpty().withMessage('Product must not be empty'),
-        validateData
-    ], (req, res) => {
-        sellerController.buy(req, res);
-    })
+
 
 module.exports = router;
