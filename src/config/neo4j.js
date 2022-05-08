@@ -10,8 +10,8 @@ class Neo4j {
         return this.session.run(`MATCH (product:product{name: '${product}'}) MATCH (buyer:buyer{name: '${name}'}) create (buyer)-[:recommend]->(product)`)
     }
 
-    buy(name, product) {
-        return this.session.run(`MATCH (n:seller {name: '${name}'}) MATCH (m:product {name: '${product}'}) CREATE (n)-[:buy]->(m)`)
+    buy(name, product){
+        return this.session.run(`MATCH (n:buyer {name: '${name}'}) MATCH (m:product {name: '${product}'}) CREATE (n)-[:buy]->(m)`)
     }
 
     getAllBuyer() {
