@@ -10,7 +10,7 @@ class Neo4j {
         return this.session.run(`MATCH (product:product{name: '${product}'}) MATCH (buyer:buyer{name: '${name}'}) create (buyer)-[:recommend]->(product)`)
     }
 
-    buy(name, product){
+    buy(name, product) {
         return this.session.run(`MATCH (n:buyer {name: '${name}'}) MATCH (m:product {name: '${product}'}) CREATE (n)-[:buy]->(m)`)
     }
 
@@ -38,6 +38,18 @@ class Neo4j {
         let product = await this.session.run(`CREATE (n:product {name: '${name}', category_name: '${category_name}'}) RETURN n`)
         await this.session.run(`MATCH (n:seller {name: '${seller}'}), (m:product {name: '${name}'}) CREATE (n)-[:sells]->(m) RETURN n`)
         return product.records[0]._fields[0].properties
+    }
+
+    top5Products() {
+        //traer los 5 productos que tengan mas relaciones con los compradores
+        return this.session.run(`
+        MATCH (buyer:buyer)
+        MATCH (product:product)
+        MATCH (buyer)-[:buy]->(product)
+        RETURN product.name, count(*)
+        ORDER BY count(*) DESC
+        LIMIT 5
+        `)
     }
 
 }

@@ -9,5 +9,12 @@ router.route('/')
         productController.create(req, res);
     })
 
+router.route('/top5')
+    .get((req, res) => {
+        productController.getTop5(req, res);
+    })
+
+
+
 
 module.exports = router;

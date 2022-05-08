@@ -14,7 +14,7 @@ class productController {
                 message: 'seller not found'
             })
         }
-    
+
         let product = await this.neo4j.createProduct(name, category_name, seller.name)
         try {
             res.status(201).json({
@@ -24,6 +24,23 @@ class productController {
         } catch (e) {
             res.status(500).json({
                 message: 'product not created',
+                error: e
+            })
+        }
+    }
+    async getTop5(req, res) {
+        try {
+            let products = await this.neo4j.top5Products()
+            products = products.records.map(product => {
+                return product._fields[0]
+            })
+            res.status(200).json({
+                message: 'products retrieved successfully',
+                products
+            })
+        } catch (e) {
+            res.status(500).json({
+                message: 'products not retrieved',
                 error: e
             })
         }
