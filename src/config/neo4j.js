@@ -10,15 +10,15 @@ class Neo4j {
         return this.session.run(`MATCH (product:product{name: '${product}'}) MATCH (buyer:buyer{name: '${name}'}) create (buyer)-[:recommend]->(product)`)
     }
 
-    buy(name, product){
+    buy(name, product) {
         return this.session.run(`MATCH (n:seller {name: '${name}'}) MATCH (m:product {name: '${product}'}) CREATE (n)-[:buy]->(m)`)
     }
 
-    getAllBuyer(){
+    getAllBuyer() {
         return this.session.run('MATCH (n:buyer) RETURN n')
     }
 
-    getBuyerByName(name){
+    getBuyerByName(name) {
         return this.session.run(`MATCH (n:buyer {name: '${name}'}) RETURN n`)
     }
 
@@ -35,10 +35,8 @@ class Neo4j {
     }
 
     async createProduct(name, category_name, seller) {
-        //create product
         let product = await this.session.run(`CREATE (n:product {name: '${name}', category_name: '${category_name}'}) RETURN n`)
-        //create relationship
-        let relationship = await this.session.run(`MATCH (n:seller {name: '${seller}'}), (m:product {name: '${name}'}) CREATE (n)-[:sells]->(m) RETURN n`)
+        await this.session.run(`MATCH (n:seller {name: '${seller}'}), (m:product {name: '${name}'}) CREATE (n)-[:sells]->(m) RETURN n`)
         return product.records[0]._fields[0].properties
     }
 
