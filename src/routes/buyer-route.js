@@ -16,4 +16,21 @@ router.route('/')
         buyerController.create(req, res);
     })
 
+router.route('/get_all')
+    .get((req, res) => {
+        buyerController.getAll(req, res);
+    })
+
+router.route('/recommend_product')
+    .post([
+        check('name').isString().withMessage('Name must be a string'),
+        check('name').not().isEmpty().withMessage('Name must not be empty'),
+        check('product').isString().withMessage('Product must be a string'),
+        check('product').not().isEmpty().withMessage('Product must not be empty'),
+        validateData
+    ],
+        (req, res) => {
+        buyerController.recommendProduct(req, res);
+    })
+
 module.exports = router;
