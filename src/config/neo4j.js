@@ -41,7 +41,6 @@ class Neo4j {
     }
 
     top5Products() {
-        //traer los 5 productos que tengan mas relaciones con los compradores
         return this.session.run(`
         MATCH (buyer:buyer)
         MATCH (product:product)
@@ -53,7 +52,6 @@ class Neo4j {
     }
 
     async getALlProducts() {
-        //traer los productos con la cantidad de veces que se ha comprado por los compradores y saber si esta recomendado por medio de una relacion de recomendacion
         let products = await this.session.run(`
         MATCH (buyer:buyer)
         MATCH (product:product)
@@ -62,7 +60,6 @@ class Neo4j {
         ORDER BY count(*) DESC
         `)
         products = products.records.map(product => {
-            //retornar el nombre del producto y la cantidad de compras
             return {
                 name: product._fields[0],
                 sales: product._fields[1].low
@@ -72,7 +69,6 @@ class Neo4j {
     }
 
     async isRecommended(product) {
-        //abrir una nueva session para que no se cierren las otras
         let session = this.driver.session()
         const recomendated = await session.run(`
         MATCH (buyer:buyer)
@@ -82,10 +78,8 @@ class Neo4j {
         RETURN true
         `)
         session.close()
-        return recomendated.records[0]     
+        return recomendated.records[0]
     }
-
-
 }
 
 

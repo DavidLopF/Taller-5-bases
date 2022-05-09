@@ -1,6 +1,5 @@
 const Neo4j = require('../config/neo4j')
 
-
 class buyerController {
 
     constructor() {
@@ -15,7 +14,6 @@ class buyerController {
             buyer
         })
     }
-
     async recommendProduct(req, res) {
         try {
             const { name, product } = req.body
@@ -33,7 +31,6 @@ class buyerController {
             })
         }
     }
-
     async buy(req, res){
         try {
             const { name, product } = req.body
@@ -50,8 +47,6 @@ class buyerController {
 
         }
     }
-
-
     async getAll(req, res) {
         try {
             const buyers = await this.neo4j.getAllBuyer()
